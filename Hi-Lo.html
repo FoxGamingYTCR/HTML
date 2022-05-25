@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color:black;color:cyan;font-family:verdana;" ">
+
+<p STYLE="font-size:36px;" ID="pMsg"></p>
+<p ID="pQuestion"</p>
+<p ID="pAnswer">
+    <input ID="txtAnswer" type="text" style="width:100px;">
+    <input type="button" value="Play"
+		style  ="background-color:cyan;color:black;"
+    	onClick="processResponse();
+		show('pWant'); 
+		show('pButton');
+		show('pButton2');
+		hide('pAnswer')
+		hide('pQuestion')"
+    >
+</p>
+
+
+
+<script>
+
+  function say(myMessage){
+  	document.getElementById('pMsg').innerHTML=myMessage;
+  }
+  
+  function ask(myPrompt){
+  	document.getElementById('pQuestion').innerHTML=myPrompt;
+  }
+  
+  function processResponse() {
+    answer = document.getElementById('txtAnswer').value;
+  	say('<b>Welcome '+answer+'!</b>');
+  }
+
+  say('<b>The HiLo Game</b>');
+  ask('What is your name?');
+
+</script>
+
+
+
+<p ID="pWant" style ="display:none;"> Would you like to play the HiLo game? <BR><BR> Please answer using the buttons below!</p>
+<p ID="pRules" style ="display:none;"> That's great! Would you like to learn the rules of the HiLo game?<BR><BR> Please continue using the buttons below!</p>
+<p ID="pGuess" style ="display:none;"> Good Luck! The amount of guesses you take will be recorded above!<BR><BR> (Press "Reset" to play again!) <BR><BR> (Press "Exit" to quit!) </p>
+<p ID="pQuit" style ="display:none;"> Wow! You did really great!<BR><BR> This was fun. It's nice to play with someone once in a while! </p>
+
+<BR><input type ="button"
+id				="pButton" 
+value           ="Yes, I want to play!"
+style           ="display:none;background-color:cyan;color:black;"
+onClick         ="document.getElementById('pButtonRule').style.display='block';
+                  this.style.display='none';
+                  hide('myMsg2');
+                  show('pButton3');
+                  show('pRules');
+                  hide('pButton2');
+                  hide('pWant');"
+>
+<BR>
+<input type ="button"
+id			="pButton2"
+value       ="No thanks, I'm fine"
+style       ="display:none;background-color:cyan;color:black;"play='block';
+onClick     ="show('myMsg2');hide('myMsg');hide('pButton3');"
+>
+
+<input type ="button"
+id			="pButtonRule"
+value       ="Teach me!"
+style       ="display:none;background-color:cyan;color:black;"play='block';
+onClick     ="show('myMsgRU');show('myMsgRU2');"
+>
+
+
+
+<p id   ="myMsgRU"
+style   ="display:none;color:cyan;font-size:20px;"
+> <u>Rules</u>
+
+<p id   ="myMsgRU2"
+style   ="display:none;color:cyan;"
+>  Alright, how it works is:
+<BR><BR>There is a number between 0 and 100. 
+<BR><BR>You need to guess what it is. try with the least number of guesses!
+<BR><BR>Please type your answer in number format only.
+<BR><BR>Its not that hard, I'm sure you'll like it!
+<BR><BR>(Press 'Let's Play!'' to start)</p>
+
+<!-- Start -->
+
+<BR><input type ="button"
+id				      ="pButton3" 
+value           ="Let's Play!"
+style           ="display:none;background-color:cyan;color:black;"
+onClick         ="document.getElementById('txtAnswer2').style.display='block'; 
+          document.getElementById('pGuess').style.display='block';
+          document.getElementById('goButton').style.display='block';
+          document.getElementById('myMsg3').style.display='block';
+          document.getElementById('pButtonQuit').style.display='block';
+          document.getElementById('pButtonAgain').style.display='block';
+          document.getElementById('pButtonRule').style.display='none';
+          document.getElementById('pRules').style.display='none';
+					hide ('pButton');
+          hide ('myMsgRU');
+					hide ('myMsgRU2');
+					hide ('pButton2');
+					hide ('pButton3');
+          hide ('pWant');
+					show ('goButton');
+          show ('myMsg3');
+          show('pButtonAgain')"
+>
+
+
+
+<p id   ="myMsg2"
+style   ="display:none; color: cyan;"
+>Alright, maybe later.
+<BR><BR> here, have a fox. UwU
+<BR><BR><BR>
+<image
+src="https://pbs.twimg.com/media/BuxqDopIQAAqKHB.jpg:large"
+width=300>
+</p>
+
+<script>
+function show(obj) {
+document.getElementById(obj).style.display='block';
+}
+function hide(obj) {
+document.getElementById(obj).style.display='none';
+}
+</script>
+
+
+
+<p id   ="myMsg3"
+style   ="display:none;"
+>Please type your guess! </p>
+
+<span ID="pAnswer2">
+
+    <input ID="txtAnswer2" type="text" style="display:none;width:100px;">
+    <input ID="goButton" type="button" value="GO!"
+		  style  ="display:none;background-color:cyan;color:black;"
+    	onClick= "g=document.getElementById('txtAnswer2').value;
+            a = a+1;
+            document.getElementById('txtAmount').value=a;
+
+        	  if(g>x){
+            	document.getElementById('tooHigh').style.display='block'; 
+              document.getElementById('tooLow').style.display='none';
+              document.getElementById('correct').style.display='none';
+          }
+            if(g<x) {
+            	document.getElementById('tooLow').style.display='block';
+              document.getElementById('tooHigh').style.display='none';
+              document.getElementById('correct').style.display='none';
+            }
+            processResponse1();
+            if(g==x) {
+            	document.getElementById('correct').style.display='block';
+              document.getElementById('tooLow').style.display='none';
+              document.getElementById('tooHigh').style.display='none';
+            }" >
+</span>
+
+
+
+<p ID="variables" STYLE="display:xnone;">
+  <input class="var" id="txtGuess"  style="display:none;">
+  <input class="var" id="txtAmount" style="display:none;">
+  <input class="var" id="txtRandom" style="display:none;">
+</p>
+
+
+
+  <script>
+
+    g 			= document.getElementById('txtAnswer2').value; 		// guess
+    a 			= 0;				
+    x 			= Math.floor(Math.random()*100); // random X
+     
+    document.getElementById('txtGuess').value=g;
+    document.getElementById('txtAmount').value=a;
+    document.getElementById('txtRandom').value=x;
+  </script>
+
+
+
+<p ID="tooHigh" CLASS="hid" style="display:none;">
+	You guessed too high!
+  <BR><BR><BR>
+</p>
+
+<p ID="tooLow" CLASS="hid" style="display:none;">
+	You guessed too low!
+  <BR><BR><BR>
+</p>
+
+<p ID="correct" CLASS="hid"style="display:none;">
+	You got it!
+<BR><BR><BR>
+<script>
+
+  function processResponse1() {
+    answer2 = document.getElementById('txtAmount').value;
+  	say('<b>You took ('+answer2+')&nbsp;guesses!</b>');
+
+  }
+
+</script>
+</p>
+
+
+
+<p>
+<input type ="button"
+id			="pButtonQuit"
+value       ="Exit"
+style       ="display:none;background-color:black;color:cyan;"play='block';
+onClick     ="processResponse2();
+              document.getElementById('ByeBye').style.display='block';
+              hide ('goButton'); 
+              hide ('pButtonQuit');
+              show ('pQuit');
+              document.getElementById('pAnswer2').style.display='none';
+              document.getElementById('tooLow').style.display='none';
+              document.getElementById('tooHigh').style.display='none';
+              document.getElementById('correct').style.display='none';
+              document.getElementById('pButtonAgain').style.display='none';
+              hide ('myMsg3');
+              hide ('myMsg3');
+              hide ('pGuess')"
+              hide ('pAnswer2')
+              hide ('txtAnswer2')
+              hide ('tooLow')
+              hide ('tooHigh')
+              hide ('correct')
+              hide ('pButtonAgain')
+>
+<BR>
+<input type ="button"
+id			="pButtonAgain"
+value       ="Reset"
+style       ="display:none;background-color:cyan;color:black;"
+onClick     ="a = 0;
+              x 			= Math.floor(Math.random()*100); // random X;
+              hide ('tooLow')
+              hide ('tooHigh')
+              hide ('correct')"
+
+>
+
+</p>
+
+<p id   ="ByeBye"
+style   ="display:none; color: cyan;"
+>Goodbye! Thank you for playing!
+<BR><BR> Here, have a fox. ^w^
+<BR><BR><BR>
+<image
+src="https://pbs.twimg.com/media/BuxqDopIQAAqKHB.jpg:large"
+width=300>
+</p>
+
+<script>
+
+  function processResponse2() {
+    answer3 = document.getElementById('txtAnswer').value;
+  	say('<b>Goodbye '+answer3+'!</b>');
+
+  }
+
+</script>
+
+</body>
+</html>
