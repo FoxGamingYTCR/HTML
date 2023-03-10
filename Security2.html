@@ -1,0 +1,175 @@
+<script name="Security" type="text/javascript">
+
+// Get all input elements
+const inputElements = document.getElementsByTagName('input');
+
+// Iterate through each input element
+for (let i = 0; i < inputElements.length; i++) {
+  const input = inputElements[i];
+  
+  // Get the input value and sanitize it
+  const userInput = input.value;
+  try {
+    const sanitizedInput = xssFilter(userInput);
+    console.log(`Sanitized input for ${input.name}:`, sanitizedInput);
+    
+    // Update the input value with the sanitized value
+    input.value = sanitizedInput;
+  } catch (error) {
+    console.error(`Input error for ${input.name}:`, error.message);
+  }
+}
+  
+const cookies = document.cookie.split('; ');
+
+for (let i = 0; i < cookies.length; i++) {
+  const cookie = cookies[i].split('=');
+  const name = cookie[0];
+  const value = cookie[1];
+  const options = {
+    path: '/',
+    secure: true,
+    sameSite: 'lax'
+  };
+
+  // check if the cookie is not empty
+  if (name.trim() !== '') {
+    // set the updated cookie with the same name, value, and updated options
+    document.cookie = `${name.trim()}=${value}; ${Object.entries(options).map(([key, value]) => `${key}=${value}`).join('; ')}; secure`;
+  }
+}
+  
+const allowedUrls = [
+  'https://foxgamingyt.wixsite.com/foxgamingyt',
+  'https://foxgamingyt.wixsite.com/foxgamingyt/anti-hate'
+];
+
+try {
+  const currentUrl = new URL(window.location.href);
+
+  if (!allowedUrls.includes(currentUrl.href)) {
+    throw new Error('URL not allowed.');
+  }
+
+  if (currentUrl.protocol !== 'https:') {
+    const httpsUrl = new URL(currentUrl);
+    httpsUrl.protocol = 'https:';
+    fetch(httpsUrl)
+      .then(() => {
+        window.location.href = httpsUrl.href;
+      })
+      .catch(() => {
+        window.location.href = currentUrl.href;
+      });
+  }
+} catch (error) {
+  console.error(error);
+  window.location.href = 'https://foxgamingyt.wixsite.com/foxgamingyt';
+}
+
+try {
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+        } else {
+          console.warn(`Image "${img.alt}" is missing the 'data-src' attribute.`);
+        }
+      }
+    });
+  }, {
+    rootMargin: '100px',
+  });
+
+  const imagesWithDataSrc = document.querySelectorAll('img[data-src]');
+  for (const img of imagesWithDataSrc) {
+    observer.observe(img);
+  }
+} catch (error) {
+  console.error(error);
+}
+
+const preventDefault = (event) => event.preventDefault();
+
+if ('serviceWorker' in navigator) {
+  try {
+    // Register a service worker
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        // Check for updates every 5 minutes
+        setInterval(() => {
+          registration.update()
+            .then(() => {
+              console.log('Service worker updated');
+            })
+            .catch((error) => {
+              console.error('Error checking for service worker updates:', error);
+            });
+        }, 300000); // 5 minutes in milliseconds
+
+        // Listen for service worker updates
+        registration.addEventListener('updatefound', () => {
+          const installingWorker = registration.installing;
+
+          // When a new service worker is installing, notify the user
+          installingWorker.addEventListener('statechange', () => {
+            if (installingWorker.state === 'installed') {
+              // Notify the user that an update is available
+              alert('A new version of the website is available. Please refresh the page to see the latest version.');
+            }
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error registering service worker:', error);
+      });
+  } catch (error) {
+    console.error('Service worker registration failed:', error);
+  }
+} else {
+  console.error('Service workers are not supported in this browser.');
+}
+  setTimeout(() => {}, Math.floor(Math.random() * 5000));
+}
+
+try {
+  const input = validateInput(userInput);
+  const output = doSomethingWithInput(input);
+  const encodedOutput = encodeOutput(output);
+  console.log(encodedOutput);
+} catch (error) {
+  console.error(error.message);
+}
+
+function validateInput(input) {
+  // Check if input is a string
+  if (typeof input !== 'string') {
+    throw new Error('Input must be a string');
+  }
+
+  // Check if input is not empty
+  if (input.trim() === '') {
+    throw new Error('Input cannot be empty');
+  }
+
+  // Add more validation rules as needed
+
+  return input;
+}
+
+function encodeOutput(output) {
+  return encodeURIComponent(output);
+}
+
+// Get all cookies set on the current page
+const cookies = document.cookie.split("; ");
+
+// Loop through each cookie and add the Secure flag
+cookies.forEach(cookie => {
+  document.cookie = `${cookie}; Secure`;
+});
+</script>
+<script src="masterPage.js"></script>
